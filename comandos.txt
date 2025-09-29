@@ -1,0 +1,16 @@
+# Usando una git bash o terminal, ejecutar los siguientes comandos:
+
+# Configurar el .env con lo que hay en .env.example
+cp .env.example .env
+
+# Instalar las dependencias
+composer install
+
+# Generar la clave de la aplicación
+php artisan key:generate
+
+# Ejecutar las migraciones y los seeders
+php artisan migrate --seed
+
+# Iniciar el servidor de desarrollo
+php artisan serve # o composer run dev
