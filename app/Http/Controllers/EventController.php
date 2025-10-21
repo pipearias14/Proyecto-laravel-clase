@@ -13,7 +13,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
+        return Event::with('venue')->get();//with carga la relacion definida en el modelo, muestra todos los eventos con su venue
     }
 
     /**
@@ -36,7 +36,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return $event;
+        return $event->load ('venue');//load carga la relacion definida en el modelo, en este caso venue
     }
 
     /**

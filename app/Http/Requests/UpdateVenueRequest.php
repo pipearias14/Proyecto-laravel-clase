@@ -11,7 +11,7 @@ class UpdateVenueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateVenueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'venue_name' => ['required', 'string', 'max:255'],
+            'venue_address' => ['string', 'max:255'],
+            'venue_capacity' => ['integer', 'min:1'],
+            'venue_status' => ['boolean'],
         ];
     }
 }

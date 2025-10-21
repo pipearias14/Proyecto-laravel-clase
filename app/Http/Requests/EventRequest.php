@@ -29,6 +29,7 @@ class EventRequest extends FormRequest
             'event_location_name' => ['string', 'max:255'],
             'event_meetup_url' => ['url'],
             'event_is_virtual' => ['boolean'],
+            'fk_venue_event' => ['exists:venues,id'],
         ];
     }
 }
