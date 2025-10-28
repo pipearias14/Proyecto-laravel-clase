@@ -13,15 +13,20 @@ const props = defineProps({
 });
 
 const form = useForm({
+    _method: 'PUT',
     event_name: props.event.event_name,
     event_date: '',
     event_is_virtual: props.event.event_is_virtual,
     event_speaker_name: props.event.event_speaker_name,
+    event_max_capacity: props.event.event_max_capacity,
+    event_location_name: props.event.event_location_name,
+    event_meetup_url: props.event.event_meetup_url,
     fk_venue_event: props.event.fk_venue_event,
+    event_image: null,
 });
 
 const submit = () => {
-    form.put(route('events.update', props.event.id));
+    form.post(route('events.update', props.event.id));
 };
 
 onMounted(() => {
@@ -114,6 +119,22 @@ onMounted(() => {
                                     </option>
                                 </select>
                                 <InputError class="mt-2" :message="form.errors.fk_venue_event"/>
+                            </div>
+
+                            <div class="mb-4">
+                                <InputLabel for="event_image" value="Event Image" class="dark:text-gray-300"/>
+                                <input
+                                    id="event_image"
+                                    type="file"
+                                    accept="image/*"
+                                    class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    @input="form.event_image = $event.target.files[0]"
+                                />
+                                <div v-if="props.event.event_image" class="mt-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Current image:</p>
+                                    <img :src="'/storage/' + props.event.event_image" alt="Current event image" class="mt-1 w-32 h-32 object-cover rounded">
+                                </div>
+                                <InputError class="mt-2" :message="form.errors.event_image"/>
                             </div>
 
                             <div class="flex items-center justify-end mt-4">

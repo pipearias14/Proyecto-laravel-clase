@@ -64,6 +64,7 @@ function formatDate(dateString) {
                                 <div>
                                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Venue</p>
                                     <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ event.venue ? event.venue.venue_name : 'No venue assigned' }}</p>
+                                    
                                 </div>
                             </div>
                         </div>

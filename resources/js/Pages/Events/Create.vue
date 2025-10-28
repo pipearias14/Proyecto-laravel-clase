@@ -17,7 +17,11 @@ const form = useForm({
     event_date: '',
     event_is_virtual: false,
     event_speaker_name: '',
+    event_max_capacity: 0,
+    event_location_name: '',
+    event_meetup_url: '',
     fk_venue_event: props.selectedVenue || '',
+    event_image: null,
 });
 
 const submit = () => {
@@ -116,6 +120,18 @@ onMounted(() => {
                                     </option>
                                 </select>
                                 <InputError class="mt-2" :message="form.errors.fk_venue_event"/>
+                            </div>
+
+                            <div class="mb-4">
+                                <InputLabel for="event_image" value="Event Image" class="dark:text-gray-300"/>
+                                <input
+                                    id="event_image"
+                                    type="file"
+                                    accept="image/*"
+                                    class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    @input="form.event_image = $event.target.files[0]"
+                                />
+                                <InputError class="mt-2" :message="form.errors.event_image"/>
                             </div>
 
                             <div class="flex items-center justify-end mt-4">

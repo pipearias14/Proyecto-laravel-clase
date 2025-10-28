@@ -30,6 +30,7 @@ class EventRequest extends FormRequest
             'event_meetup_url' => ['url'],
             'event_is_virtual' => ['boolean'],
             'fk_venue_event' => ['exists:venues,id'],
+            'event_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
 }

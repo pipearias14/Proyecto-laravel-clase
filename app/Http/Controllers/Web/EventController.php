@@ -7,6 +7,7 @@ use App\Models\Venue;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 
 class EventController extends Controller
@@ -33,12 +34,22 @@ class EventController extends Controller
         $validated = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_date' => 'required|date',
-            'event_is_virtual' => 'boolean',
+            'event_max_capacity' => 'integer|min:1',
             'event_speaker_name' => 'required|string|max:255',
+            'event_location_name' => 'nullable|string|max:255',
+            'event_meetup_url' => 'nullable|url',
+            'event_is_virtual' => 'boolean',
             'fk_venue_event' => 'nullable|exists:venues,id',
+            'event_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Event::create($validated);
+        $data = $validated;
+
+        if ($request->hasFile('event_image')) {
+            $data['event_image'] = $request->file('event_image')->store('events', 'public');
+        }
+
+        Event::create($data);
 
         return redirect()->route('events.index')
             ->with('message', 'Event created successfully.');
@@ -64,12 +75,26 @@ class EventController extends Controller
         $validated = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_date' => 'required|date',
-            'event_is_virtual' => 'boolean',
+            'event_max_capacity' => 'integer|min:1',
             'event_speaker_name' => 'required|string|max:255',
+            'event_location_name' => 'nullable|string|max:255',
+            'event_meetup_url' => 'nullable|url',
+            'event_is_virtual' => 'boolean',
             'fk_venue_event' => 'nullable|exists:venues,id',
+            'event_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $event->update($validated);
+        $data = $validated;
+
+        if ($request->hasFile('event_image')) {
+            // Delete old image if exists
+            if ($event->event_image) {
+                Storage::disk('public')->delete($event->event_image);
+            }
+            $data['event_image'] = $request->file('event_image')->store('events', 'public');
+        }
+
+        $event->update($data);
 
         return redirect()->route('events.index')
             ->with('message', 'Event updated successfully.');
