@@ -26,10 +26,13 @@ class EventController extends Controller
         $event->event_date = $request->input('event_date');
         $event->event_max_capacity = $request->input('event_max_capacity');
         $event->event_is_virtual = $request->input('event_is_virtual');
+        $event->event_speaker_name = $request->input('event_speaker_name');
+
         $event->save();
 
         return $event;
     }
+    
 
     /**
      * Display the specified resource.
